@@ -1,0 +1,255 @@
+/* ENGRAM — premium dark theme */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+:root {
+    --bg: #0b0e1a;
+    --bg-2: #11152a;
+    --card: rgba(255, 255, 255, 0.045);
+    --card-hover: rgba(255, 255, 255, 0.07);
+    --border: rgba(255, 255, 255, 0.09);
+    --text: #e8ebf7;
+    --muted: #9aa4c4;
+    --accent: #7c6cff;
+    --accent-2: #22d3ee;
+    --danger: #ff5d73;
+    --warn: #fbbf24;
+    --radius: 16px;
+    --shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    color: var(--text);
+    background:
+        radial-gradient(900px 500px at 10% -10%, rgba(124, 108, 255, 0.22), transparent 60%),
+        radial-gradient(800px 500px at 100% 0%, rgba(34, 211, 238, 0.14), transparent 55%),
+        var(--bg);
+    background-attachment: fixed;
+}
+
+a { color: var(--accent-2); text-decoration: none; transition: color .2s; }
+a:hover { color: #fff; }
+
+/* ---------- Header / Nav ---------- */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(11, 14, 26, 0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+}
+
+header > div {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: .8rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .75rem;
+}
+
+header > div > a {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: .18em;
+    color: var(--text);
+}
+header > div > a span {
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .25rem; }
+nav a {
+    display: block;
+    padding: .45rem .85rem;
+    border-radius: 999px;
+    font-size: .9rem;
+    font-weight: 500;
+    color: var(--muted);
+    transition: all .2s;
+}
+nav a:hover { color: #fff; background: var(--card-hover); }
+nav li:last-child a { border: 1px solid var(--border); }
+
+/* ---------- Layout ---------- */
+main {
+    flex: 1;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 3rem;
+}
+
+section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(6px);
+}
+
+/* login / signup card */
+section:has(> form label) { max-width: 440px; margin: 3rem auto; }
+
+h1, h2, h3 { line-height: 1.25; margin: 0 0 1rem; letter-spacing: -.01em; }
+h1 { font-size: 1.9rem; }
+h2 { font-size: 1.25rem; }
+h3 { font-size: 1.05rem; }
+h2 small { font-size: .8rem; font-weight: 500; color: var(--muted); margin-left: .5rem; }
+p { margin: .4rem 0; }
+em, small { color: var(--muted); }
+s { color: var(--muted); }
+
+/* ---------- Forms ---------- */
+section > form { display: flex; flex-wrap: wrap; gap: .75rem; }
+section > form label { flex: 1 0 100%; font-size: .85rem; color: var(--muted); margin-bottom: -.4rem; }
+
+input, select, textarea {
+    font: inherit;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: .65rem .85rem;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+}
+input::placeholder, textarea::placeholder { color: #6d7699; }
+input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(124, 108, 255, 0.25);
+    background: rgba(255, 255, 255, 0.08);
+}
+select option { background: var(--bg-2); color: var(--text); }
+
+section > form input, section > form select { flex: 1 1 200px; }
+section > form textarea { flex: 1 0 100%; min-height: 90px; resize: vertical; }
+
+button {
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    color: #fff;
+    border: 0;
+    border-radius: 10px;
+    padding: .65rem 1.2rem;
+    background: linear-gradient(135deg, var(--accent), #5b8cff);
+    box-shadow: 0 6px 18px rgba(124, 108, 255, 0.35);
+    transition: transform .15s, box-shadow .2s, filter .2s;
+}
+button:hover { transform: translateY(-1px); filter: brightness(1.1); box-shadow: 0 10px 24px rgba(124, 108, 255, 0.45); }
+button:active { transform: translateY(0); }
+
+/* small buttons inside cards */
+article button { padding: .4rem .8rem; font-size: .82rem; box-shadow: none; }
+article input, article select { padding: .4rem .6rem; font-size: .85rem; }
+
+form[action="delete.php"] button,
+button[value="abandon"] {
+    background: rgba(255, 93, 115, 0.12);
+    color: var(--danger);
+    border: 1px solid rgba(255, 93, 115, 0.35);
+}
+form[action="delete.php"] button:hover,
+button[value="abandon"]:hover { background: var(--danger); color: #fff; }
+
+/* ---------- Cards (books, ideas, quotes...) ---------- */
+article {
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.15rem;
+    margin-bottom: .85rem;
+    transition: background .2s, border-color .2s, transform .2s;
+}
+article:hover { background: var(--card-hover); border-color: rgba(124, 108, 255, 0.4); }
+article > form, article li > form { margin: .2rem .25rem .2rem 0; }
+article ul { margin: .6rem 0; padding-left: 1.2rem; }
+article li { margin: .35rem 0; }
+
+blockquote {
+    margin: 0;
+    padding: .2rem 0 .2rem 1rem;
+    border-left: 3px solid var(--accent);
+    font-size: 1.05rem;
+    font-style: italic;
+}
+
+/* ---------- Dashboard ---------- */
+section[aria-label="Vault statistics"] > div {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: .85rem;
+}
+section[aria-label="Vault statistics"] article { text-align: center; margin: 0; padding: 1.1rem .5rem; }
+section[aria-label="Vault statistics"] article strong {
+    display: block;
+    font-size: 2rem;
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+section[aria-label="Vault statistics"] article span { color: var(--muted); font-size: .85rem; }
+
+/* heatmap */
+.heat {
+    display: grid;
+    grid-template-rows: repeat(7, 14px);
+    grid-auto-flow: column;
+    grid-auto-columns: 14px;
+    gap: 4px;
+    overflow-x: auto;
+    padding-bottom: .5rem;
+}
+.cell { border-radius: 4px; background: rgba(255, 255, 255, 0.07); }
+.l0 { background: rgba(255, 255, 255, 0.07); }
+.l1 { background: #3b3a8f; }
+.l2 { background: #5b52d6; }
+.l3 { background: #7c6cff; }
+.l4 { background: #22d3ee; box-shadow: 0 0 8px rgba(34, 211, 238, 0.6); }
+
+canvas { max-width: 100%; }
+
+/* ---------- Badges ---------- */
+.error, .warn {
+    display: inline-block;
+    padding: .15rem .65rem;
+    border-radius: 999px;
+    font-size: .8rem;
+    font-weight: 600;
+}
+.error { color: var(--danger); background: rgba(255, 93, 115, 0.12); border: 1px solid rgba(255, 93, 115, 0.3); }
+.warn  { color: var(--warn);   background: rgba(251, 191, 36, 0.12);  border: 1px solid rgba(251, 191, 36, 0.3); }
+
+/* ---------- Footer ---------- */
+footer { border-top: 1px solid var(--border); background: rgba(11, 14, 26, 0.6); }
+footer div { max-width: 1100px; margin: 0 auto; padding: 1.2rem 1.25rem; text-align: center; color: var(--muted); font-size: .85rem; }
+footer p { margin: 0; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+    h1 { font-size: 1.5rem; }
+    section { padding: 1.1rem; }
+    nav ul { gap: 0; }
+    nav a { padding: .4rem .6rem; font-size: .82rem; }
+}
