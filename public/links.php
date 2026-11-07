@@ -1,9 +1,7 @@
 <?php
-require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/guard.php';
 
-$uid = $_SESSION['user_id'];
+$uid = (int) $_SESSION['user_id'];
 $map = [];   // "book:3" => "Book: Title"
 foreach (allItems($conn, $uid) as $i) $map[$i['type'] . ':' . $i['id']] = ucfirst($i['type']) . ': ' . $i['title'];
 

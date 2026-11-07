@@ -1,6 +1,5 @@
 <?php
-require_once __DIR__ . '/session.php';
-require_once __DIR__ . '/functions.php';
+// Layout header (auth + helpers should already be loaded).
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +15,7 @@ require_once __DIR__ . '/functions.php';
         <a href="index.php">ENG<span>RAM</span></a>
         <nav aria-label="Main">
             <ul>
-                <?php if (isset($_SESSION['user_id'])): ?>
+                <?php if (isLoggedIn()): ?>
                     <li><a href="index.php">Dashboard</a></li>
                     <li><a href="books.php">Books</a></li>
                     <li><a href="resources.php">Resources</a></li>
@@ -24,7 +23,11 @@ require_once __DIR__ . '/functions.php';
                     <li><a href="insights.php">Insights</a></li>
                     <li><a href="motivation.php">Quotes</a></li>
                     <li><a href="links.php">Links</a></li>
-                    <li><a href="logout.php">Logout (<?= e($_SESSION['user_name']) ?>)</a></li>
+                    <li><a href="profile.php">Profile</a></li>
+                    <?php if (($_SESSION['role'] ?? '') === 'admin'): ?>
+                        <li><a href="admin/users.php">Manage users</a></li>
+                    <?php endif; ?>
+                    <li><a href="logout.php">Logout (<?= e($_SESSION['user_name'] ?? '') ?>)</a></li>
                 <?php else: ?>
                     <li><a href="login.php">Login</a></li>
                     <li><a href="signup.php">Signup</a></li>

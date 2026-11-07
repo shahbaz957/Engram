@@ -1,9 +1,7 @@
 <?php
-require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../includes/guard.php';
 
-$uid = $_SESSION['user_id'];
+$uid = (int) $_SESSION['user_id'];
 // table => page to return to (also acts as the whitelist)
 $pages = ['books' => 'books.php', 'resources' => 'resources.php', 'ideas' => 'ideas.php', 'insights' => 'insights.php',
           'quotes' => 'motivation.php', 'links' => 'links.php', 'idea_steps' => 'ideas.php'];
