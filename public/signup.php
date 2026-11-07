@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (q($conn, 'SELECT id FROM users WHERE email = ? OR username = ? LIMIT 1', 'ss', $email, $username)->num_rows > 0) {
         $error = 'Username or email already registered.';
     } else {
-        // Role comes from the database default (student), not from the form.
+        // Role comes from the database default (user), not from the form.
         q($conn, 'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)', 'sss',
             $username, $email, password_hash($password, PASSWORD_DEFAULT));
         header('Location: login.php');

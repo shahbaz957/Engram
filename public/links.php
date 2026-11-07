@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../includes/guard.php';
+require_once __DIR__ . '/../includes/user_guard.php';
 
 $uid = (int) $_SESSION['user_id'];
 $map = [];   // "book:3" => "Book: Title"

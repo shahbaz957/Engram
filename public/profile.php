@@ -19,6 +19,6 @@ require_once __DIR__ . '/../includes/header.php';
     <p><strong>Email:</strong> <?= e($user['email']) ?></p>
     <p><strong>Role:</strong> <?= e($user['role']) ?></p>
     <p><strong>Member since:</strong> <?= e($user['created_at']) ?></p>
-    <p><a href="index.php">Back to dashboard</a></p>
+    <p><a href="<?= isAdmin() ? 'admin/index.php' : 'index.php' ?>">Back to dashboard</a></p>
 </section>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

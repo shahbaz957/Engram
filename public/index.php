@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../includes/guard.php';
+require_once __DIR__ . '/../includes/user_guard.php';
 
 $uid = (int) $_SESSION['user_id'];
 
@@ -67,24 +67,44 @@ foreach ($byTag as $tag => $kinds) {
 }
 $pair = $cands ? $cands[array_rand($cands)] : null;
 
+$linkCount = (int) q($conn, 'SELECT COUNT(*) AS c FROM links WHERE user_id = ?', 'i', $uid)->fetch_assoc()['c'];
+$readingNow = (int) q($conn, "SELECT COUNT(*) AS c FROM books WHERE user_id = ? AND status = 'Reading'", 'i', $uid)->fetch_assoc()['c'];
+$vaultTotal = array_sum($counts);
+$stepsDone = (int) q($conn, 'SELECT COUNT(*) AS c FROM idea_steps WHERE user_id = ? AND is_done = 1', 'i', $uid)->fetch_assoc()['c'];
+
 require_once __DIR__ . '/../includes/header.php';
 ?>
-<section>
+<section class="dash-hero">
+    <p class="eyebrow">Your second brain</p>
     <h1>Welcome, <?= e($_SESSION['user_name']) ?></h1>
-    <p>
-        <strong>1% Better Today:</strong>
-        <?= $todayScore > 0 ? "Active ($todayScore actions today)" : "No activity yet — log 5 pages or finish 1 idea step!" ?>
-        | <strong>Streak:</strong> <?= $streak ?> day(s)
-        | <strong>Reading velocity:</strong> <?= $pace ?> pages/day
-    </p>
+    <div class="pill-row">
+        <span class="pill <?= $todayScore > 0 ? 'pill-ok' : '' ?>">Today: <?= $todayScore ?> actions</span>
+        <span class="pill">Streak: <?= $streak ?> day<?= $streak === 1 ? '' : 's' ?></span>
+        <span class="pill">Reading: <?= $pace ?> pg/day</span>
+        <span class="pill">In progress: <?= $readingNow ?> book<?= $readingNow === 1 ? '' : 's' ?></span>
+    </div>
+</section>
+
+<section class="quick-actions">
+    <h2>Quick capture</h2>
+    <div class="action-grid">
+        <a class="action-card" href="books.php">📚 Log reading</a>
+        <a class="action-card" href="resources.php">🔗 Save resource</a>
+        <a class="action-card" href="ideas.php">💡 New idea</a>
+        <a class="action-card" href="insights.php">✦ Add insight</a>
+        <a class="action-card" href="motivation.php">Save quote</a>
+        <a class="action-card" href="links.php">Connect notes</a>
+    </div>
 </section>
 
 <section aria-label="Vault statistics">
-    <h2>Vault Statistics</h2>
-    <div>
+    <h2>Vault snapshot</h2>
+    <p class="vault-total"><strong><?= $vaultTotal ?></strong> total items · <strong><?= $linkCount ?></strong> links · <strong><?= $stepsDone ?></strong> steps completed</p>
+    <div class="kpi-grid">
         <?php foreach ($counts as $name => $c): ?>
-            <article><strong><?= $c ?></strong> <span><?= ucfirst($name) ?></span></article>
+            <article class="kpi-card"><strong><?= $c ?></strong> <span><?= ucfirst($name) ?></span></article>
         <?php endforeach; ?>
+        <article class="kpi-card accent"><strong><?= $linkCount ?></strong> <span>Links</span></article>
     </div>
 </section>
 
