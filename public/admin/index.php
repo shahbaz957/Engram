@@ -65,9 +65,9 @@ $topUsers = array_values(array_filter(array_slice($leaderboard, 0, 8), static fn
 $base = '../';
 require_once __DIR__ . '/../../includes/header.php';
 ?>
-<section class="dash-hero admin-hero">
+<section class="panel panel-hero admin-hero">
     <p class="eyebrow">Administrator</p>
-    <h1>Welcome, <?= e($_SESSION['user_name']) ?></h1>
+    <h1 class="page-title">Welcome, <?= e($_SESSION['user_name']) ?></h1>
     <p class="lead">Platform overview — users and activity across ENGRAM. Vault tools are for regular accounts only.</p>
     <div class="pill-row">
         <span class="pill pill-admin">Platform admin</span>
@@ -76,14 +76,14 @@ require_once __DIR__ . '/../../includes/header.php';
     </div>
 </section>
 
-<section aria-label="Platform statistics">
-    <h2>At a glance</h2>
+<section class="panel" aria-label="Platform statistics">
+    <h2 class="panel-title">At a glance</h2>
     <div class="kpi-grid">
         <article class="kpi-card">
             <strong><?= $userAccounts ?></strong>
             <span>Vault users</span>
         </article>
-        <article class="kpi-card accent">
+        <article class="kpi-card kpi-card--accent">
             <strong><?= $newUsers30 ?></strong>
             <span>Signups (30d)</span>
         </article>
@@ -107,26 +107,22 @@ require_once __DIR__ . '/../../includes/header.php';
 </section>
 
 <div class="admin-split">
-    <section class="chart-section">
-        <h2>Registrations (14 days)</h2>
-        <canvas id="signupChart" height="120"></canvas>
+    <section class="panel">
+        <h2 class="panel-title">Registrations (14 days)</h2>
+        <div class="chart-wrap"><canvas id="signupChart" height="120"></canvas></div>
     </section>
-
-    <section>
-        <h2>Content mix</h2>
-        <div class="kpi-grid compact">
+    <section class="panel">
+        <h2 class="panel-title">Content mix</h2>
+        <div class="kpi-grid kpi-grid--compact">
             <?php foreach ($platform as $name => $count): ?>
-                <article class="kpi-card mini">
-                    <strong><?= $count ?></strong>
-                    <span><?= ucfirst($name) ?></span>
-                </article>
+                <article class="kpi-card"><strong><?= $count ?></strong><span><?= ucfirst($name) ?></span></article>
             <?php endforeach; ?>
         </div>
     </section>
 </div>
 
-<section>
-    <h2>Latest registrations</h2>
+<section class="panel">
+    <h2 class="panel-title">Latest registrations</h2>
     <ul class="leaderboard">
         <?php foreach ($recent as $u): ?>
             <li>
@@ -138,8 +134,8 @@ require_once __DIR__ . '/../../includes/header.php';
 </section>
 
 <?php if ($topUsers): ?>
-<section>
-    <h2>Most active users</h2>
+<section class="panel">
+    <h2 class="panel-title">Most active users</h2>
     <ul class="leaderboard">
         <?php foreach ($topUsers as $u): ?>
             <li>
@@ -151,8 +147,8 @@ require_once __DIR__ . '/../../includes/header.php';
 </section>
 <?php endif; ?>
 
-<section class="users-panel">
-    <h2>All users</h2>
+<section class="panel users-panel">
+    <h2 class="panel-title">All users</h2>
     <p class="lead-small"><?= $totalUsers ?> registered · <?= $platform['links'] ?> knowledge links platform-wide</p>
     <div class="table-wrap">
         <table class="data-table">

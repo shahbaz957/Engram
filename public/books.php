@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pages = (int)$_POST['pages_read'];
         if ($pages > 0 && q($conn, "SELECT id FROM books WHERE id = ? AND user_id = ?", "ii", $id, $uid)->num_rows > 0) {
             q($conn, "INSERT INTO reading_logs (user_id, book_id, pages_read, log_date) VALUES (?, ?, ?, CURDATE())", "iii", $uid, $id, $pages);
-            // MySQL runs SET left to right: status/finished_at already see the new current_page
             q($conn, "UPDATE books SET
                 current_page = IF(total_pages IS NULL, current_page + ?, LEAST(total_pages, current_page + ?)),
                 status = IF(total_pages IS NOT NULL AND current_page >= total_pages, 'Completed', 'Reading'),
@@ -38,43 +37,47 @@ $books = q($conn, "SELECT b.*,
 
 require_once __DIR__ . '/../includes/header.php';
 ?>
-<section>
-    <h2>Add Book</h2>
-    <form method="POST">
+<section class="panel">
+    <h2 class="panel-title">Add book</h2>
+    <form class="form-row" method="POST">
         <input type="hidden" name="action" value="add">
-        <input type="text" name="title" placeholder="Title" required>
-        <input type="text" name="author" placeholder="Author">
-        <input type="number" name="total_pages" placeholder="Total Pages" min="1">
-        <select name="status">
+        <input class="field" type="text" name="title" placeholder="Title" required>
+        <input class="field" type="text" name="author" placeholder="Author">
+        <input class="field" type="number" name="total_pages" placeholder="Total pages" min="1">
+        <select class="field" name="status">
             <option>Want to Read</option><option>Reading</option><option>Completed</option>
         </select>
-        <input type="text" name="tags" placeholder="Tags (logic, cs)">
-        <button type="submit">Save Book</button>
+        <input class="field" type="text" name="tags" placeholder="Tags (logic, cs)">
+        <button class="btn btn-primary" type="submit">Save book</button>
     </form>
 </section>
 
-<section>
-    <h2>Your Books <small>(velocity: <?= $pace ?> pages/day)</small></h2>
+<section class="panel">
+    <h2 class="panel-title">Your library <span class="hint">velocity · <?= $pace ?> pg/day</span></h2>
     <?php while ($b = $books->fetch_assoc()): ?>
-        <article>
-            <strong><?= e($b['title']) ?></strong> by <?= e($b['author']) ?>
-            [<?= e($b['status']) ?>] (<?= $b['current_page'] ?> / <?= $b['total_pages'] ?? '?' ?> pages)
-
-            <?php if ($b['status'] === 'Completed' && $b['absorbed'] == 0): ?>
-                <span class="error">[Consumed but not absorbed — 0 insights/quotes!]</span>
-            <?php endif; ?>
-
-            <?php if ($b['status'] === 'Reading' && $b['total_pages'] > $b['current_page'] && $pace > 0): ?>
-                | Est. finish: <?= date('d M Y', strtotime('+' . ceil(($b['total_pages'] - $b['current_page']) / $pace) . ' days')) ?>
-            <?php endif; ?>
-
-            <form method="POST" style="display:inline">
-                <input type="hidden" name="book_id" value="<?= $b['id'] ?>">
-                <input type="number" name="pages_read" placeholder="+ pages" min="1" style="width:80px" required>
-                <button name="action" value="log">Log Reading</button>
-                <?php if ($b['status'] === 'Reading'): ?><button name="action" value="abandon">Abandon</button><?php endif; ?>
-            </form>
-            <?= delBtn('books', $b['id']) ?>
+        <article class="item-card">
+            <h3 class="item-card__title"><?= e($b['title']) ?></h3>
+            <p class="item-card__meta">
+                <?= e($b['author']) ?> · <strong><?= e($b['status']) ?></strong>
+                · <?= $b['current_page'] ?> / <?= $b['total_pages'] ?? '?' ?> pages
+                <?php if ($b['status'] === 'Completed' && $b['absorbed'] == 0): ?>
+                    <span class="badge badge-error">Not absorbed yet</span>
+                <?php endif; ?>
+                <?php if ($b['status'] === 'Reading' && $b['total_pages'] > $b['current_page'] && $pace > 0): ?>
+                    · Est. <?= date('d M Y', strtotime('+' . ceil(($b['total_pages'] - $b['current_page']) / $pace) . ' days')) ?>
+                <?php endif; ?>
+            </p>
+            <div class="item-actions">
+                <form class="form-inline" method="POST">
+                    <input type="hidden" name="book_id" value="<?= $b['id'] ?>">
+                    <input class="field field-narrow" type="number" name="pages_read" placeholder="+ pgs" min="1" required>
+                    <button class="btn btn-sm btn-primary" name="action" value="log" type="submit">Log reading</button>
+                    <?php if ($b['status'] === 'Reading'): ?>
+                        <button class="btn btn-sm btn-danger" name="action" value="abandon" type="submit">Abandon</button>
+                    <?php endif; ?>
+                </form>
+                <?= delBtn('books', $b['id']) ?>
+            </div>
         </article>
     <?php endwhile; ?>
 </section>

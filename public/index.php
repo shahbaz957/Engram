@@ -74,9 +74,9 @@ $stepsDone = (int) q($conn, 'SELECT COUNT(*) AS c FROM idea_steps WHERE user_id 
 
 require_once __DIR__ . '/../includes/header.php';
 ?>
-<section class="dash-hero">
+<section class="panel panel-hero">
     <p class="eyebrow">Your second brain</p>
-    <h1>Welcome, <?= e($_SESSION['user_name']) ?></h1>
+    <h1 class="page-title">Welcome, <?= e($_SESSION['user_name']) ?></h1>
     <div class="pill-row">
         <span class="pill <?= $todayScore > 0 ? 'pill-ok' : '' ?>">Today: <?= $todayScore ?> actions</span>
         <span class="pill">Streak: <?= $streak ?> day<?= $streak === 1 ? '' : 's' ?></span>
@@ -85,50 +85,50 @@ require_once __DIR__ . '/../includes/header.php';
     </div>
 </section>
 
-<section class="quick-actions">
-    <h2>Quick capture</h2>
+<section class="panel">
+    <h2 class="panel-title">Quick capture</h2>
     <div class="action-grid">
-        <a class="action-card" href="books.php">📚 Log reading</a>
-        <a class="action-card" href="resources.php">🔗 Save resource</a>
-        <a class="action-card" href="ideas.php">💡 New idea</a>
-        <a class="action-card" href="insights.php">✦ Add insight</a>
+        <a class="action-card" href="books.php">Log reading</a>
+        <a class="action-card" href="resources.php">Save resource</a>
+        <a class="action-card" href="ideas.php">New idea</a>
+        <a class="action-card" href="insights.php">Add insight</a>
         <a class="action-card" href="motivation.php">Save quote</a>
         <a class="action-card" href="links.php">Connect notes</a>
     </div>
 </section>
 
-<section aria-label="Vault statistics">
-    <h2>Vault snapshot</h2>
+<section class="panel" aria-label="Vault statistics">
+    <h2 class="panel-title">Vault snapshot</h2>
     <p class="vault-total"><strong><?= $vaultTotal ?></strong> total items · <strong><?= $linkCount ?></strong> links · <strong><?= $stepsDone ?></strong> steps completed</p>
     <div class="kpi-grid">
         <?php foreach ($counts as $name => $c): ?>
             <article class="kpi-card"><strong><?= $c ?></strong> <span><?= ucfirst($name) ?></span></article>
         <?php endforeach; ?>
-        <article class="kpi-card accent"><strong><?= $linkCount ?></strong> <span>Links</span></article>
+        <article class="kpi-card kpi-card--accent"><strong><?= $linkCount ?></strong> <span>Links</span></article>
     </div>
 </section>
 
-<section>
-    <h2>Last 12 Weeks</h2>
+<section class="panel">
+    <h2 class="panel-title">Last 12 weeks</h2>
     <div class="heat">
         <?php for ($i = 83; $i >= 0; $i--): $d = date('Y-m-d', strtotime("-$i day")); $c = $days[$d] ?? 0; ?>
             <span class="cell l<?= min($c, 4) ?>" title="<?= $d ?>: <?= $c ?> actions"></span>
         <?php endfor; ?>
     </div>
-    <h3>Pages read (last 7 days)</h3>
-    <canvas id="pagesChart" height="70"></canvas>
+    <h3 class="panel-subtitle">Pages read (7 days)</h3>
+    <div class="chart-wrap"><canvas id="pagesChart" height="70"></canvas></div>
 </section>
 
 <?php if ($revisit): ?>
-<section>
-    <h2>Daily Revisit (<?= e($revisit['type']) ?>)</h2>
+<section class="panel">
+    <h2 class="panel-title">Daily revisit · <?= e($revisit['type']) ?></h2>
     <p>"<?= e($revisit['body']) ?>" — <strong><?= e($revisit['meta']) ?></strong></p>
 </section>
 <?php endif; ?>
 
 <?php if ($pair): ?>
-<section>
-    <h2>Connected Nodes (#<?= e($pair[0]) ?>)</h2>
+<section class="panel">
+    <h2 class="panel-title">Connected · #<?= e($pair[0]) ?></h2>
     <p><?= e(ucfirst($pair[1]['type'])) ?>: <strong><?= e($pair[1]['title']) ?></strong>
        ↔ <?= e(ucfirst($pair[2]['type'])) ?>: <strong><?= e($pair[2]['title']) ?></strong></p>
     <p><a href="links.php">Link them</a></p>
@@ -136,9 +136,9 @@ require_once __DIR__ . '/../includes/header.php';
 <?php endif; ?>
 
 <?php if ($stalled->num_rows > 0): ?>
-<section>
-    <h2>Reading Slump Alert (stalled 14+ days)</h2>
-    <ul>
+<section class="panel">
+    <h2 class="panel-title">Reading slump</h2>
+    <ul class="list-plain">
         <?php while ($sb = $stalled->fetch_assoc()): ?>
             <li><?= e($sb['title']) ?> — <a href="books.php">Resume or Abandon</a></li>
         <?php endwhile; ?>
@@ -147,9 +147,9 @@ require_once __DIR__ . '/../includes/header.php';
 <?php endif; ?>
 
 <?php if ($dusty->num_rows > 0): ?>
-<section>
-    <h2>Dusty Ideas (untouched 30+ days)</h2>
-    <ul>
+<section class="panel">
+    <h2 class="panel-title">Dusty ideas</h2>
+    <ul class="list-plain">
         <?php while ($di = $dusty->fetch_assoc()): ?>
             <li><strong><?= e($di['title']) ?></strong> — next action: <?= e($di['next_action']) ?> (<a href="ideas.php">act on it</a>)</li>
         <?php endwhile; ?>

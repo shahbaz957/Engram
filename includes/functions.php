@@ -54,7 +54,7 @@ function pace($conn, $uid) {
 }
 
 function delBtn($table, $id) {
-    return '<form method="POST" action="delete.php" style="display:inline" onsubmit="return confirm(\'Delete?\')">'
+    return '<form method="POST" action="delete.php" class="form-inline" onsubmit="return confirm(\'Delete?\')">'
         . '<input type="hidden" name="table" value="' . e($table) . '"><input type="hidden" name="id" value="' . (int) $id . '">'
-        . '<button type="submit">Delete</button></form>';
+        . '<button type="submit" class="btn btn-sm btn-danger">Delete</button></form>';
 }

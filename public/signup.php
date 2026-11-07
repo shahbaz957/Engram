@@ -22,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (q($conn, 'SELECT id FROM users WHERE email = ? OR username = ? LIMIT 1', 'ss', $email, $username)->num_rows > 0) {
         $error = 'Username or email already registered.';
     } else {
-        // Role comes from the database default (user), not from the form.
         q($conn, 'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)', 'sss',
             $username, $email, password_hash($password, PASSWORD_DEFAULT));
         header('Location: login.php');
@@ -32,20 +31,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 require_once __DIR__ . '/../includes/header.php';
 ?>
-<section>
-    <h2>Create Account</h2>
-    <?php if ($error !== ''): ?><p class="error"><?= e($error) ?></p><?php endif; ?>
-    <form method="POST" action="signup.php">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" required>
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
-        <label for="confirm_password">Confirm Password</label>
-        <input type="password" id="confirm_password" name="confirm_password" required>
-        <button type="submit">Create Account</button>
+<section class="panel auth-panel">
+    <h2 class="panel-title">Create account</h2>
+    <?php if ($error !== ''): ?><p class="alert alert-error"><?= e($error) ?></p><?php endif; ?>
+    <form class="form-stack" method="POST" action="signup.php">
+        <div>
+            <label class="label" for="username">Username</label>
+            <input class="field" type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label class="label" for="email">Email</label>
+            <input class="field" type="email" id="email" name="email" required>
+        </div>
+        <div>
+            <label class="label" for="password">Password</label>
+            <input class="field" type="password" id="password" name="password" required>
+        </div>
+        <div>
+            <label class="label" for="confirm_password">Confirm password</label>
+            <input class="field" type="password" id="confirm_password" name="confirm_password" required>
+        </div>
+        <button class="btn btn-primary" type="submit">Sign up</button>
     </form>
-    <p><a href="login.php">Already have an account?</a></p>
+    <p class="text-muted text-center">Have an account? <a href="login.php">Login</a></p>
 </section>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

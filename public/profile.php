@@ -13,12 +13,14 @@ if (!$user) {
 
 require_once __DIR__ . '/../includes/header.php';
 ?>
-<section>
-    <h1>My Profile</h1>
-    <p><strong>Username:</strong> <?= e($user['username']) ?></p>
-    <p><strong>Email:</strong> <?= e($user['email']) ?></p>
-    <p><strong>Role:</strong> <?= e($user['role']) ?></p>
-    <p><strong>Member since:</strong> <?= e($user['created_at']) ?></p>
-    <p><a href="<?= isAdmin() ? 'admin/index.php' : 'index.php' ?>">Back to dashboard</a></p>
+<section class="panel panel--narrow">
+    <h2 class="panel-title">Profile</h2>
+    <p class="item-card__meta"><strong>Username</strong> · <?= e($user['username']) ?></p>
+    <p class="item-card__meta"><strong>Email</strong> · <?= e($user['email']) ?></p>
+    <p class="item-card__meta"><strong>Role</strong> · <span class="role-tag role-<?= e($user['role']) ?>"><?= e($user['role']) ?></span></p>
+    <p class="item-card__meta"><strong>Joined</strong> · <?= e($user['created_at']) ?></p>
+    <div class="item-actions item-actions--flush">
+        <a class="btn btn-ghost" href="<?= isAdmin() ? 'admin/index.php' : 'index.php' ?>">Back to dashboard</a>
+    </div>
 </section>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

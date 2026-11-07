@@ -26,16 +26,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 require_once __DIR__ . '/../includes/header.php';
 ?>
-<section>
-    <h2>Login</h2>
-    <?php if ($error !== ''): ?><p class="error"><?= e($error) ?></p><?php endif; ?>
-    <form method="POST" action="login.php">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" autocomplete="username" required>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" autocomplete="current-password" required>
-        <button type="submit">Login</button>
+<section class="panel auth-panel">
+    <h2 class="panel-title">Sign in</h2>
+    <?php if ($error !== ''): ?><p class="alert alert-error"><?= e($error) ?></p><?php endif; ?>
+    <form class="form-stack" method="POST" action="login.php">
+        <div>
+            <label class="label" for="email">Email</label>
+            <input class="field" type="email" id="email" name="email" autocomplete="username" required>
+        </div>
+        <div>
+            <label class="label" for="password">Password</label>
+            <input class="field" type="password" id="password" name="password" autocomplete="current-password" required>
+        </div>
+        <button class="btn btn-primary" type="submit">Login</button>
     </form>
-    <p><a href="signup.php">Create an account</a></p>
+    <p class="text-muted text-center">No account? <a href="signup.php">Create one</a></p>
 </section>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
